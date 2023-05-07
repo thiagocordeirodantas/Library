@@ -5,11 +5,13 @@ const textoTeste = '[FileList](https://developer.mozilla.org/pt-BR/docs/Web/API/
 
 function extraiLinks(texto) {
     const regex = /\[[^[\]]*?\]\(https?:\/\/[^\s?#.].[^\s]*\)/gm;
-    const capturas = regex.exec(texto);
-    console.log(capturas)
+    const capturas = [...texto.matchAll(regex)];
+    const resultados = capturas.map(captura => ({[captura[0]]: captura[2]}))
+
+   return resultados;
+   
 }
 
-extraiLinks(textoTeste)
 
 function trataErro (erro) {
     console.log(erro)
@@ -20,22 +22,13 @@ async function pegaArquivo (caminhoDoArquivo) {
     try {
         const encoding = "UTF-8";
         const textoResposta = await fs.promises.readFile(caminhoDoArquivo,encoding)
+        console.log(extraiLinks(textoResposta))
     } catch(erro) {
         trataErro(erro)
        
     }
     
 }
-
-//async await
-
-// const pegaArquivo = (caminhoDoArquivo) => {
-//     const encoding = "UTF-8"
-//         fs.promises
-//             .readFile(caminhoDoArquivo,encoding)
-//             .then((texto) => console.log(chalk.green(texto)))
-//             .catch((erro) => trataErro(erro))
-// }
 
 
  pegaArquivo('./arquivos/texto.md');
