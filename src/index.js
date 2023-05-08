@@ -8,7 +8,7 @@ function extraiLinks(texto) {
     const capturas = [...texto.matchAll(regex)];
     const resultados = capturas.map(captura => ({[captura[0]]: captura[2]}))
 
-   return resultados;
+   return resultados.length !== 0 ?  resultados : 'Nao ha links no arquivo';
    
 }
 
@@ -22,7 +22,7 @@ async function pegaArquivo (caminhoDoArquivo) {
     try {
         const encoding = "UTF-8";
         const textoResposta = await fs.promises.readFile(caminhoDoArquivo,encoding)
-        console.log(extraiLinks(textoResposta))
+       return extraiLinks(textoResposta)
     } catch(erro) {
         trataErro(erro)
        
